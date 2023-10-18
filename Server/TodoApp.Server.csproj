@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\TodoApp.Client.csproj" />
-    <ProjectReference Include="..\Shared\TodoApp.Shared.csproj" />
+    <ProjectReference Include="./../Client/TodoApp.Client.csproj" />
+    <ProjectReference Include="./../Shared/TodoApp.Shared.csproj" />
   </ItemGroup>
 
 
