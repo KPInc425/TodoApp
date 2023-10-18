@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 
-<MudThemeProvider/>
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
@@ -13,10 +13,19 @@
         </MudStack>
         <MudSpacer />
         <MudStack Row="true">
-            <MudLink Href="https://www.dotnetfullstack.com" Target="_blank" Class="mud-theme-primary">Learn</MudLink>
-            <MudLink Href="https://youtube.com/&commat;TheTechnomancerJ" Target="_blank" Class="mud-theme-primary">YouTube</MudLink>
-            <MudLink Href="https://mudblazor.com" Target="_blank" Class="mud-theme-primary">MudBlazor</MudLink>
+            <MudLink Href="https://www.dotnetfullstack.com" Target="_blank" Class="@($"{(_isDarkMode ? "mud-theme-primary-dark" : "mud-theme-primary")}")">Learn</MudLink>
+            <MudLink Href="https://youtube.com/&commat;TheTechnomancerJ" Target="_blank" Class="@($"{(_isDarkMode ? "mud-theme-primary-dark" : "mud-theme-primary")}")">YouTube</MudLink>
+            <MudLink Href="https://mudblazor.com" Target="_blank" Class="@($"{(_isDarkMode ? "mud-theme-primary-dark" : "mud-theme-primary")}")">MudBlazor</MudLink>
         </MudStack>
+        <MudToggleIconButton 
+            @bind-Toggled="@_isDarkMode" 
+            Icon="@Icons.Material.Filled.DarkMode" 
+            Color="@Color.Info"
+            Title="Dark Mode" 
+            ToggledIcon="@Icons.Material.Filled.LightMode" 
+            ToggledColor="Color.Warning"
+            ToggledTitle="Light Mode" 
+        />
     </MudAppBar>
 
     <MudMainContent Class="mt-4">
@@ -25,3 +34,8 @@
         </article>
     </MudMainContent>
 </MudLayout>
+
+@code {
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
+}
