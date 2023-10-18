@@ -6,16 +6,17 @@
 <MudSnackbarProvider/>
 
 <MudLayout class="page">
-    <MudAppBar class="px-4" style="justify-content: space-between;">
+    <MudAppBar class="px-4" Justify style="justify-content: space-between;">
         <MudStack Row='true' AlignItems="AlignItems.Center">
             <ChecklistIcon />
             <MudText Class="ml-1"><b>Todo List</b></MudText>
         </MudStack>
-        @* <div>
-            <a href="https://www.claudiobernasconi.ch" target="_blank">Blog</a>
-            <a href="https://youtube.com/claudiobernasconi" target="_blank">YouTube</a>
-            <a href="https://twitter.com/CHBernasconiC" target="_blank">Twitter</a>
-        </div> *@
+        <MudSpacer />
+        <MudStack Row="true">
+            <MudLink Href="https://www.dotnetfullstack.com" Target="_blank" Class="mud-theme-primary">Learn</MudLink>
+            <MudLink Href="https://youtube.com/&commat;TheTechnomancerJ" Target="_blank" Class="mud-theme-primary">YouTube</MudLink>
+            <MudLink Href="https://mudblazor.com" Target="_blank" Class="mud-theme-primary">MudBlazor</MudLink>
+        </MudStack>
     </MudAppBar>
 
     <MudMainContent Class="mt-4">
