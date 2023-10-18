@@ -1,17 +1,18 @@
 @inject HttpClient Http
 
-<EditForm Model="@_todoItem" OnSubmit="@ItemAdded">
-    <div style="display: flex; align-items: center; width: 400px;">
-        <div style="margin-right: 10px">Text:</div>
-        <InputText 
+<MudForm Model="@_todoItem" OnSubmit="@ItemAdded">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Style="width: 400px;">
+        <MudText><b>Text:</b></MudText>
+        <MudTextField 
           @bind-Value="_todoItem.Text" 
-          class="form-control" 
-          style="margin-right: 10px" 
+          Variant="Variant.Outlined"
+          Class="mr-3" 
+          Margin="Margin.Dense"
           id="Item" />
-        <input type="submit" class="btn btn-primary" style="margin-right: 10px" value="Add" />
-        <input type="reset" class="btn btn-secondary" value="Clear" />
-    </div>
-</EditForm>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mr-3" value="Add" OnClick=@ItemAdded >Add</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" value="Clear" OnClick=@(() => _todoItem.Text = "") >Clear</MudButton>
+    </MudStack>
+</MudForm>
 
 @code {
   [Parameter]

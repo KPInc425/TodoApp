@@ -5,41 +5,47 @@
 
 @if (_todoItems == null)
 {
-    <p><em>Loading...</em></p>
+    <MudText><em>Loading...</em></MudText>
 }
 else
 {
-    <div class="border" style="padding: 20px;">
-      <h4>New Item</h4>
+    <MudContainer Class="pa-5 border">
+      <MudText Typo="Typo.h4">New Item</MudText>
       <TodoItemForm OnItemAdded="@ItemsChanged" />
-    </div>
-    <div class="border" style="padding: 20px; margin-top: 20px;">
-        <div style="display: flex; flex-direction: column">
+    </MudContainer>
+    <MudContainer Class="pa-5 mt-5 border">
+        <MudStack Justify="Justify.Center">
             @foreach (var todo in _todoItems)
             {
-                <div style="display: flex; margin-bottom: 10px;">
-                    <div style="display: flex; align-items: center;margin-bottom: 10px;">
-                        <div class="@ItemClass(todo)" style="width: 280px;">@todo.Text</div>
-                    </div>
-                    @if (todo.Completed)
-                    {
-                        <div style="width: 120px">
-                            <button class="btn btn-primary" onclick="@(() => UncompleteItem(todo))">Uncomplete</button>
-                        </div>
-                    }
-                    @if (!todo.Completed)
-                    {
-                        <div style="width: 120px">
-                            <button class="btn btn-primary" onclick="@(() => CompleteItem(todo))">Complete</button>
-                        </div>
-                    }
-                    <div>
-                      <button class="btn btn-danger" onclick="@(() => DeleteItem(todo))">Delete</button>
-                    </div>
-                </div>
+              <MudStack Row="true" Class="mb-3" AlignItems="AlignItems.Center">
+                @if (ItemClass(todo) == "item-completed")
+                {
+                  <MudText Style="width: 280px; text-decoration: line-through; color: #ccc;">@todo.Text</MudText>
+                }
+                else 
+                {
+                  <MudText Style="width: 280px;">@todo.Text</MudText>
+                }
+                @* <MudText Class="@ItemClass(todo)" Style="width: 280px;">@todo.Text</MudText> *@
+                @if (todo.Completed)
+                {
+                    <MudContainer Style="width: 120px">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => UncompleteItem(todo))">Uncomplete</MudButton>
+                    </MudContainer>
+                }
+                @if (!todo.Completed)
+                {
+                    <MudContainer Style="width: 120px">
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => CompleteItem(todo))">Complete</MudButton>
+                    </MudContainer>
+                }
+                <MudContainer>
+                  <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(() => DeleteItem(todo))">Delete</MudButton>
+                </MudContainer>
+              </MudStack>
             }
-        </div>
-    </div>
+        </MudStack>
+    </MudContainer>
 }
 
 @code {
