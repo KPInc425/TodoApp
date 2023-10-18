@@ -1,0 +1,89 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>Todo List</PageTitle>
+
+@if (_todoItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="border" style="padding: 20px;">
+      <h4>New Item</h4>
+      <TodoItemForm OnItemAdded="@ItemsChanged" />
+    </div>
+    <div class="border" style="padding: 20px; margin-top: 20px;">
+        <div style="display: flex; flex-direction: column">
+            @foreach (var todo in _todoItems)
+            {
+                <div style="display: flex; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center;margin-bottom: 10px;">
+                        <div class="@ItemClass(todo)" style="width: 280px;">@todo.Text</div>
+                    </div>
+                    @if (todo.Completed)
+                    {
+                        <div style="width: 120px">
+                            <button class="btn btn-primary" onclick="@(() => UncompleteItem(todo))">Uncomplete</button>
+                        </div>
+                    }
+                    @if (!todo.Completed)
+                    {
+                        <div style="width: 120px">
+                            <button class="btn btn-primary" onclick="@(() => CompleteItem(todo))">Complete</button>
+                        </div>
+                    }
+                    <div>
+                      <button class="btn btn-danger" onclick="@(() => DeleteItem(todo))">Delete</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+  private TodoItem[]? _todoItems;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _todoItems = await Http.GetFromJsonAsync<TodoItem[]>("Todo");
+    foreach(var item in _todoItems)
+    {
+      Console.WriteLine(item.Id);
+    }
+  }
+
+  public async void ItemsChanged()
+  {
+    _todoItems = await Http.GetFromJsonAsync<TodoItem[]>("Todo");
+
+    StateHasChanged();
+  }
+
+  public async void DeleteItem(TodoItem item)
+  {
+    await Http.DeleteAsync($"Todo/{item.Id}");
+    ItemsChanged();
+  }
+
+  public async void CompleteItem(TodoItem item)
+  {
+    Console.WriteLine(item.Id.GetType());
+    Console.WriteLine(item.Id);
+    @* var itemData = new {Id = item.Id}; *@
+    await Http.PostAsJsonAsync("Todo/complete", item);
+    ItemsChanged();
+  }
+
+  public async void UncompleteItem(TodoItem item)
+  {
+    await Http.PostAsJsonAsync("Todo/uncomplete", item);
+    ItemsChanged();
+  }
+
+  public string ItemClass(TodoItem item)
+  {
+    return item.Completed ? "item-completed" : "";
+  }
+}

@@ -1,0 +1,34 @@
+@inject HttpClient Http
+
+<EditForm Model="@_todoItem" OnSubmit="@ItemAdded">
+    <div style="display: flex; align-items: center; width: 400px;">
+        <div style="margin-right: 10px">Text:</div>
+        <InputText 
+          @bind-Value="_todoItem.Text" 
+          class="form-control" 
+          style="margin-right: 10px" 
+          id="Item" />
+        <input type="submit" class="btn btn-primary" style="margin-right: 10px" value="Add" />
+        <input type="reset" class="btn btn-secondary" value="Clear" />
+    </div>
+</EditForm>
+
+@code {
+  [Parameter]
+  public required Action OnItemAdded { get; set; }
+
+  private TodoItem _todoItem = new TodoItem("");
+
+  public async Task ItemAdded() {
+    if (_todoItem.Text == "") {
+      return;
+    }
+    await Http.PostAsJsonAsync("Todo", _todoItem);
+
+    if (OnItemAdded != null) {
+      OnItemAdded();
+      _todoItem = new TodoItem("");
+    }
+
+  }
+}
