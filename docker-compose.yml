@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  todo-app-server:
+    volumes:
+      - $APPDATA/Microsoft/UserSecrets/11b1d295-54c5-4d09-9bd6-fa56fb74011b:/root/.microsoft/usersecrets/11b1d295-54c5-4d09-9bd6-fa56fb74011b
+      - $HOME/.microsoft/usersecrets/11b1d295-54c5-4d09-9bd6-fa56fb74011b:/root/.microsoft/usersecrets/11b1d295-54c5-4d09-9bd6-fa56fb74011b
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "5017:5017"
